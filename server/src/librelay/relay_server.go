@@ -16,6 +16,7 @@ import (
 
 	"code.cloudfoundry.org/clock"
 
+	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
@@ -34,6 +35,7 @@ type RelayTransactionRequest struct {
 	EncodedFunction string
 	ApprovalData    []byte
 	Signature       []byte
+	TxHash          []byte
 	From            common.Address
 	To              common.Address
 	GasPrice        big.Int
@@ -466,6 +468,7 @@ func (relay *RelayServer) CreateRelayTransaction(request RelayTransactionRequest
 		request.GasLimit,
 		request.RecipientNonce,
 		request.Signature,
+		request.TxHash,
 		request.ApprovalData)
 
 	if err != nil {
@@ -568,6 +571,38 @@ func (relay *RelayServer) GetPort() string {
 }
 
 func (relay *RelayServer) canRelay(from common.Address,
+	to common.Address,
+	encodedFunction string,
+	relayFee big.Int,
+	gasPrice big.Int,
+	gasLimit big.Int,
+	recipientNonce big.Int,
+	signature []byte,
+	txhash []byte,
+	approvalData []byte) (res *big.Int, err error) {
+
+	valid := relay.internalCheck(signature, txhash)
+	log.Println("XXXXXXXXXXXXXXXXXXX")
+	log.Println(valid)
+
+	res, err = relay.externalCheck(from, to, encodedFunction, relayFee, gasPrice, gasLimit, recipientNonce, signature, approvalData);
+
+	return 
+}
+
+func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
+
+	pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
+	whitelisted := relay.pubKeyWhitelisted(pubKey)
+
+	return whitelisted
+}
+
+func (relay *RelayServer) pubKeyWhitelisted(pubKey []byte) (bool){
+	return true
+}
+
+func (relay *RelayServer) externalCheck(from common.Address,
 	to common.Address,
 	encodedFunction string,
 	relayFee big.Int,
