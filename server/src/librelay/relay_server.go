@@ -593,7 +593,8 @@ func (relay *RelayServer) canRelay(from common.Address,
 
 func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
 
-	pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
+	pubKey, _ := crypto.SigToPub(txhash, signature)
+	//pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
 	//pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
@@ -604,7 +605,7 @@ func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
 	return whitelisted
 }
 
-func (relay *RelayServer) pubKeyWhitelisted([]byte) (bool){
+func (relay *RelayServer) pubKeyWhitelisted(*ecdsa.PublicKey) (bool){
 	return true
 }
 
