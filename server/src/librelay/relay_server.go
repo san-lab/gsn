@@ -594,6 +594,7 @@ func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
 
 	pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
+	log.Println(pubKey)
 
 	return whitelisted
 }
