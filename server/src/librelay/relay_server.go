@@ -16,6 +16,7 @@ import (
 
 	"code.cloudfoundry.org/clock"
 
+	"github.com/btcsuite/btcd/btcec"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -592,14 +593,16 @@ func (relay *RelayServer) canRelay(from common.Address,
 
 func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
 
-	pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
+	//pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
+	sig, _ := btcec.ParseSignature(signature, btcec.S256())
+	pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
 	log.Println(pubKey)
 
 	return whitelisted
 }
 
-func (relay *RelayServer) pubKeyWhitelisted(pubKey []byte) (bool){
+func (relay *RelayServer) pubKeyWhitelisted(*PublicKey) (bool){
 	return true
 }
 
