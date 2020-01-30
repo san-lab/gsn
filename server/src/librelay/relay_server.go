@@ -597,6 +597,8 @@ func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
 	//pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
+	log.Println(txhash)
+	log.Println(signature)
 	log.Println(pubKey)
 
 	return whitelisted
