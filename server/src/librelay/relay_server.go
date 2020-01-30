@@ -602,7 +602,7 @@ func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
 	return whitelisted
 }
 
-func (relay *RelayServer) pubKeyWhitelisted([]byte]) (bool){
+func (relay *RelayServer) pubKeyWhitelisted([]byte) (bool){
 	return true
 }
 
