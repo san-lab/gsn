@@ -36,7 +36,8 @@ type RelayTransactionRequest struct {
 	EncodedFunction string
 	ApprovalData    []byte
 	Signature       []byte
-	TxHash          []byte
+	CheckSig		[]byte
+	KnownStr		[]byte
 	From            common.Address
 	To              common.Address
 	GasPrice        big.Int
@@ -469,7 +470,8 @@ func (relay *RelayServer) CreateRelayTransaction(request RelayTransactionRequest
 		request.GasLimit,
 		request.RecipientNonce,
 		request.Signature,
-		request.TxHash,
+		request.CheckSig,
+		request.KnownStr,
 		request.ApprovalData)
 
 	if err != nil {
@@ -579,10 +581,11 @@ func (relay *RelayServer) canRelay(from common.Address,
 	gasLimit big.Int,
 	recipientNonce big.Int,
 	signature []byte,
-	txhash []byte,
+	checkSig []byte,
+	knownStr []byte,
 	approvalData []byte) (res *big.Int, err error) {
 
-	valid := relay.internalCheck(signature, txhash)
+	valid := relay.internalCheck(checkSig, knownStr)
 	log.Println("XXXXXXXXXXXXXXXXXXX")
 	log.Println(valid)
 
@@ -591,14 +594,14 @@ func (relay *RelayServer) canRelay(from common.Address,
 	return 
 }
 
-func (relay *RelayServer) internalCheck(signature []byte, txhash []byte) (bool){
+func (relay *RelayServer) internalCheck(signature []byte, msg []byte) (bool){
 
-	pubKey, _ := crypto.SigToPub(txhash, signature)
+	pubKey, _ := crypto.SigToPub(msg, signature)
 	//pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
 	//pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
-	log.Println(txhash)
+	log.Println(msg)
 	log.Println(signature)
 	log.Println(pubKey)
 
