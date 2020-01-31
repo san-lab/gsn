@@ -17,7 +17,7 @@ import (
 	"code.cloudfoundry.org/clock"
 
 	//"github.com/btcsuite/btcd/btcec"
-	"github.com/ethereum/go-ethereum/crypto/secp256k1"
+	//"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
