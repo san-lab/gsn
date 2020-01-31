@@ -582,10 +582,9 @@ func (relay *RelayServer) canRelay(from common.Address,
 	recipientNonce big.Int,
 	signature []byte,
 	checkSig []byte,
-	knownStr []byte,
 	approvalData []byte) (res *big.Int, err error) {
 
-	valid := relay.internalCheck(checkSig, knownStr)
+	valid := relay.internalCheck(checkSig)
 	log.Println("XXXXXXXXXXXXXXXXXXX")
 	log.Println(valid)
 
@@ -594,8 +593,8 @@ func (relay *RelayServer) canRelay(from common.Address,
 	return 
 }
 
-func (relay *RelayServer) internalCheck(signature []byte, msg []byte) (bool){
-
+func (relay *RelayServer) internalCheck(signature []byte) (bool){
+	msg = []
 	pubKey, _ := crypto.SigToPub(msg, signature)
 	//pubKey, _ := secp256k1.RecoverPubkey(txhash, signature)
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
