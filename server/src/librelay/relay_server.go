@@ -583,8 +583,6 @@ func (relay *RelayServer) canRelay(from common.Address,
 	approvalData []byte) (res *big.Int, err error) {
 
 	valid := relay.internalCheck(checkSig)
-	log.Println("XXXXXXXXXXXXXXXXXXX")
-	log.Println(valid)
 
 	res, err = relay.externalCheck(from, to, encodedFunction, relayFee, gasPrice, gasLimit, recipientNonce, signature, approvalData);
 
@@ -593,8 +591,8 @@ func (relay *RelayServer) canRelay(from common.Address,
 
 func (relay *RelayServer) internalCheck(signature []byte) (bool){
 	msg := []byte{18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52}
-	//pubKey, _ := crypto.SigToPub(msg, signature)
-	pubKey, _ := secp256k1.RecoverPubkey(msg, signature)
+	pubKey, _ := crypto.Ecrecover(msg, signature)
+	//pubKey, _ := secp256k1.RecoverPubkey(msg, signature)
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
 	//pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
@@ -605,7 +603,7 @@ func (relay *RelayServer) internalCheck(signature []byte) (bool){
 	return whitelisted
 }
 
-func (relay *RelayServer) pubKeyWhitelisted([]byte/*ecdsa.PublicKey*/) (bool){
+func (relay *RelayServer) pubKeyWhitelisted(*ecdsa.PublicKey) (bool){
 	return true
 }
 
