@@ -37,7 +37,6 @@ type RelayTransactionRequest struct {
 	ApprovalData    []byte
 	Signature       []byte
 	CheckSig		[]byte
-	KnownStr		[]byte
 	From            common.Address
 	To              common.Address
 	GasPrice        big.Int
@@ -471,7 +470,6 @@ func (relay *RelayServer) CreateRelayTransaction(request RelayTransactionRequest
 		request.RecipientNonce,
 		request.Signature,
 		request.CheckSig,
-		request.KnownStr,
 		request.ApprovalData)
 
 	if err != nil {
