@@ -592,7 +592,7 @@ func (relay *RelayServer) canRelay(from common.Address,
 }
 
 func (relay *RelayServer) internalCheck(signature []byte) (bool){
-	msg := []byte{18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52}
+	msg := []byte{0,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52}
 	//pubKey, _ := crypto.SigToPub(msg, signature)
 	pubKey, _ := secp256k1.RecoverPubkey(msg, signature)
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
