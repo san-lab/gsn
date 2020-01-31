@@ -603,7 +603,7 @@ func (relay *RelayServer) internalCheck(signature []byte) (bool){
 	return whitelisted
 }
 
-func (relay *RelayServer) pubKeyWhitelisted(*ecdsa.PublicKey) (bool){
+func (relay *RelayServer) pubKeyWhitelisted([]byte) (bool){
 	return true
 }
 
