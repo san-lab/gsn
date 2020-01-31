@@ -582,7 +582,7 @@ func (relay *RelayServer) canRelay(from common.Address,
 	checkSig []byte,
 	approvalData []byte) (res *big.Int, err error) {
 
-	_ := relay.internalCheck(checkSig)
+	relay.internalCheck(checkSig)
 
 	res, err = relay.externalCheck(from, to, encodedFunction, relayFee, gasPrice, gasLimit, recipientNonce, signature, approvalData);
 
