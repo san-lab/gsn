@@ -595,7 +595,7 @@ func (relay *RelayServer) internalCheck(signature []byte) (bool){
 	privECDSA, _ := crypto.ToECDSA(privKey)
 	signedInside, _ := crypto.Sign(msg, privECDSA)
 
-	pubKey, _ := crypto.Ecrecover(msg, signedInside)
+	pubKey, _ := crypto.Ecrecover(msg, signature)
 	//pubKey, _ := secp256k1.RecoverPubkey(msg, signature)
 	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
 	//pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
