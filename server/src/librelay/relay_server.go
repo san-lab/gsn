@@ -602,6 +602,7 @@ func (relay *RelayServer) internalCheck(signature []byte) (bool){
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
 	log.Println(msg)
 	log.Println(signature)
+	log.Println(signedInside)
 	log.Println(pubKey)
 
 	return whitelisted
