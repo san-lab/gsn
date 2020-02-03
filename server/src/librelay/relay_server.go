@@ -590,7 +590,7 @@ func (relay *RelayServer) canRelay(from common.Address,
 }
 
 func (relay *RelayServer) internalCheck(signature []byte) (bool){
-	msg := []byte{18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52,86,120,144,18,52}
+	msg := []byte{109,68,18,92,255,219,105,183,146,93,174,235,14,5,13,238,1,39,105,117,17,241,237,248,0,183,33,148,77,92,117,145}
 	privKey := []byte{56,252,36,192,32,243,213,144,150,139,143,68,95,106,6,130,249,206,73,91,6,11,74,144,55,189,243,172,229,233,238,18}
 	privECDSA, _ := crypto.ToECDSA(privKey)
 	signedInside, _ := crypto.Sign(msg, privECDSA)
