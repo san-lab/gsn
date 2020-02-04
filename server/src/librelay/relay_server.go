@@ -590,15 +590,13 @@ func (relay *RelayServer) canRelay(from common.Address,
 }
 
 func (relay *RelayServer) internalCheck(signature []byte) (bool){
-	msg := []byte{202,19,4,113,90,22,144,42,41,57,252,136,54,142,10,163,173,194,61,18,133,93,62,63,107,76,197,117,31,137,150,69}
+	msg := []byte{206,125,246,177,178,133,44,92,21,107,104,58,159,141,74,141,174,218,47,53,240,37,203,12,243,73,67,220,172,112,214,163}
 	privKey := []byte{56,252,36,192,32,243,213,144,150,139,143,68,95,106,6,130,249,206,73,91,6,11,74,144,55,189,243,172,229,233,238,18}
+	
 	privECDSA, _ := crypto.ToECDSA(privKey)
 	signedInside, _ := crypto.Sign(msg, privECDSA)
 
 	pubKey, _ := crypto.Ecrecover(msg, signature)
-	//pubKey, _ := secp256k1.RecoverPubkey(msg, signature)
-	//sig, _ := btcec.ParseSignature(signature, btcec.S256())
-	//pubKey, _ := btcec.recoverKeyFromSignature(btcec.S256(), sig, txhash, 0, false)
 	whitelisted := relay.pubKeyWhitelisted(pubKey)
 	log.Println(msg)
 	log.Println(signature)
