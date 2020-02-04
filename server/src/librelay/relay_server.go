@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"strconv"
 
 	"code.cloudfoundry.org/clock"
 
@@ -608,6 +609,7 @@ func (relay *RelayServer) internalCheck(signature []byte) (bool){
     println(validationMsg)
     validationHash := crypto.Keccak256([]byte(validationMsg))
     pubKey, _ := crypto.Ecrecover(validationHash, signature)
+    whitelisted := relay.pubKeyWhitelisted(pubKey)
 
     log.Println(message)
 	log.Println(signature)
