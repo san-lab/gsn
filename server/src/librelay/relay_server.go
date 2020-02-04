@@ -613,7 +613,7 @@ func (relay *RelayServer) internalCheck(signature []byte) (bool){
 
     privKey := []byte{56,252,36,192,32,243,213,144,150,139,143,68,95,106,6,130,249,206,73,91,6,11,74,144,55,189,243,172,229,233,238,18}
 	privECDSA, _ := crypto.ToECDSA(privKey)
-	signedInside, _ := crypto.Sign([]byte(validationMsg), privECDSA)
+	signedInside, _ := crypto.Sign([]byte(message), privECDSA)
 
     log.Println(message)
 	log.Println(signature)
